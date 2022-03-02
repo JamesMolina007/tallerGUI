@@ -30,7 +30,8 @@ public class TallerGUI {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Arbol a = new Arbol();
+        a.setVisible(true);
     }
     
 }
