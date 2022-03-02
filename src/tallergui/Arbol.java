@@ -5,15 +5,28 @@
  */
 package tallergui;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -27,6 +40,9 @@ public class Arbol extends javax.swing.JFrame {
     public Arbol() {
         initComponents();
         this.setLocationRelativeTo(null);
+        Image icono = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../Iconos/planeta.png"));
+        this.setIconImage(icono);
+        
     }
 
     /**
@@ -40,6 +56,17 @@ public class Arbol extends javax.swing.JFrame {
 
         pm_menu = new javax.swing.JPopupMenu();
         mi_editar = new javax.swing.JMenuItem();
+        jd_grafica = new javax.swing.JDialog();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jt_alumnos = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        tb_graficaNombre = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        js_edad = new javax.swing.JSpinner();
+        btn_agregar = new javax.swing.JButton();
+        btn_graficar = new javax.swing.JButton();
+        jd_graficador = new javax.swing.JDialog();
+        lbl_grafica = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_directorio = new javax.swing.JTree();
         btn_directorio = new javax.swing.JButton();
@@ -50,6 +77,9 @@ public class Arbol extends javax.swing.JFrame {
         tb_contenido = new javax.swing.JTextArea();
         btn_subir = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
+        btn_guardar = new javax.swing.JButton();
+        btn_cargar = new javax.swing.JButton();
+        btn_tabla = new javax.swing.JButton();
 
         mi_editar.setText("Editar");
         mi_editar.addActionListener(new java.awt.event.ActionListener() {
@@ -58,6 +88,89 @@ public class Arbol extends javax.swing.JFrame {
             }
         });
         pm_menu.add(mi_editar);
+
+        jt_alumnos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Edad"
+            }
+        ));
+        jScrollPane3.setViewportView(jt_alumnos);
+
+        jLabel3.setText("Nombre");
+
+        jLabel4.setText("Edad");
+
+        btn_agregar.setText("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
+
+        btn_graficar.setText("Graficar");
+        btn_graficar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_graficarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_graficaLayout = new javax.swing.GroupLayout(jd_grafica.getContentPane());
+        jd_grafica.getContentPane().setLayout(jd_graficaLayout);
+        jd_graficaLayout.setHorizontalGroup(
+            jd_graficaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_graficaLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jd_graficaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3)
+                    .addComponent(tb_graficaNombre)
+                    .addComponent(jLabel4)
+                    .addComponent(js_edad)
+                    .addComponent(btn_agregar, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                    .addComponent(btn_graficar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        jd_graficaLayout.setVerticalGroup(
+            jd_graficaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_graficaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jd_graficaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jd_graficaLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tb_graficaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(js_edad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_agregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_graficar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jd_graficadorLayout = new javax.swing.GroupLayout(jd_graficador.getContentPane());
+        jd_graficador.getContentPane().setLayout(jd_graficadorLayout);
+        jd_graficadorLayout.setHorizontalGroup(
+            jd_graficadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_graficadorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_grafica, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jd_graficadorLayout.setVerticalGroup(
+            jd_graficadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_graficadorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_grafica, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,6 +202,32 @@ public class Arbol extends javax.swing.JFrame {
         });
 
         btn_editar.setText("Editar");
+        btn_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editarActionPerformed(evt);
+            }
+        });
+
+        btn_guardar.setText("Guardar Arbol");
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
+
+        btn_cargar.setText("Cargar Arbol");
+        btn_cargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cargarActionPerformed(evt);
+            }
+        });
+
+        btn_tabla.setText("Tabla");
+        btn_tabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_tablaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -96,20 +235,29 @@ public class Arbol extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(btn_directorio, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
-                    .addComponent(tb_nombre)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_subir, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1)
+                            .addComponent(btn_directorio, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(139, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1)
+                            .addComponent(tb_nombre)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_subir, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_guardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_cargar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_tabla, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,7 +279,12 @@ public class Arbol extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_subir)
                             .addComponent(btn_editar))))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_guardar)
+                    .addComponent(btn_cargar)
+                    .addComponent(btn_tabla))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,6 +359,89 @@ public class Arbol extends javax.swing.JFrame {
        
     }//GEN-LAST:event_mi_editarActionPerformed
 
+    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
+        String pathTemp = jt_directorio.getSelectionPath().toString();
+        pathTemp = pathTemp.substring(1, pathTemp.length() -1 );
+        String[] directorioAux = pathTemp.split(",");
+        String path = "";
+        for (int i = 0; i < directorioAux.length; i++)
+            if(i != 0)
+                path += directorioAux[i].replace(" ", "") + "\\";
+        
+        try{
+            BufferedWriter bw = new BufferedWriter(new FileWriter(direccion+ "/" + path, false));
+            bw.write(tb_contenido.getText() + "\n");
+            bw.close();
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        DefaultTreeModel modelo = (DefaultTreeModel)jt_directorio.getModel();
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode)modelo.getRoot();
+        root.removeAllChildren();
+        llenarArbol(direccion, root);
+        modelo.reload();
+        
+        JOptionPane.showMessageDialog(null,"Editado exitosamente!");
+        tb_contenido.setText("");
+        tb_nombre.setText("");
+    }//GEN-LAST:event_btn_editarActionPerformed
+
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        try{
+            ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream("./Arbol.p"));
+            ob.writeObject(jt_directorio.getModel());
+            ob.close();
+            JOptionPane.showMessageDialog(null,"Guardado exitosamente!");
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void btn_cargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cargarActionPerformed
+        try{
+            DefaultTreeModel modelo = (DefaultTreeModel)jt_directorio.getModel();
+            ObjectInputStream ob = new ObjectInputStream(new FileInputStream("./Arbol.p"));
+            jt_directorio.setModel((DefaultTreeModel)ob.readObject());
+            ob.close();
+            modelo.reload();
+            JOptionPane.showMessageDialog(null,"Cargado exitosamente!");
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_btn_cargarActionPerformed
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        Object[] alumno = {tb_graficaNombre.getText(), js_edad.getValue()};
+        DefaultTableModel modelo = (DefaultTableModel)jt_alumnos.getModel();
+        modelo.addRow(alumno);
+    JOptionPane.showMessageDialog(null,"Registrado exitosamente!");
+    }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void btn_tablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tablaActionPerformed
+        jd_grafica.pack();
+        jd_grafica.setLocationRelativeTo(this);
+        jd_grafica.setVisible(true);
+    }//GEN-LAST:event_btn_tablaActionPerformed
+
+    private void btn_graficarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_graficarActionPerformed
+        DefaultCategoryDataset datos = new DefaultCategoryDataset();
+        
+        DefaultTableModel modelo = (DefaultTableModel)jt_alumnos.getModel();
+        
+        for(int i = 0; i < jt_alumnos.getRowCount(); i++)
+            datos.setValue((int)modelo.getValueAt(i, 1), (String)modelo.getValueAt(i, 0), (String)modelo.getValueAt(i, 0));
+        
+        JFreeChart graficoBarras = ChartFactory.createBarChart("Alumnos", "Alumno", "Edad", datos, PlotOrientation.VERTICAL, true, false, false);
+        
+        BufferedImage image = graficoBarras.createBufferedImage(600, 300);
+        
+        lbl_grafica.setIcon(new ImageIcon(image));
+        
+        jd_graficador.pack();
+        jd_graficador.setLocationRelativeTo(this);
+        jd_graficador.setVisible(true);
+    }//GEN-LAST:event_btn_graficarActionPerformed
+
     private DefaultMutableTreeNode llenarArbol(String path, DefaultMutableTreeNode padre){
         String[] lista = (new File(path)).list();
         if(lista != null && lista.length > 0)
@@ -252,17 +488,31 @@ public class Arbol extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_agregar;
+    private javax.swing.JButton btn_cargar;
     private javax.swing.JButton btn_directorio;
     private javax.swing.JButton btn_editar;
+    private javax.swing.JButton btn_graficar;
+    private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_subir;
+    private javax.swing.JButton btn_tabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JDialog jd_grafica;
+    private javax.swing.JDialog jd_graficador;
+    private javax.swing.JSpinner js_edad;
+    private javax.swing.JTable jt_alumnos;
     private javax.swing.JTree jt_directorio;
+    private javax.swing.JLabel lbl_grafica;
     private javax.swing.JMenuItem mi_editar;
     private javax.swing.JPopupMenu pm_menu;
     private javax.swing.JTextArea tb_contenido;
+    private javax.swing.JTextField tb_graficaNombre;
     private javax.swing.JTextField tb_nombre;
     // End of variables declaration//GEN-END:variables
     private String direccion;

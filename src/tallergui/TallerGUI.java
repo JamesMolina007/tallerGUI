@@ -13,17 +13,17 @@ public class TallerGUI {
 
     /*
     MVC
-    Arboles
-    Ficheros con arboles
-    Guardar estado de arboles
-    Cargar estado de arboles
-    POPUPMENU con arboles
+    Arboles <- YA
+    Ficheros con arboles <- YA
+    Guardar estado de arboles  <- YA
+    Cargar estado de arboles <- YA
+    POPUPMENU con arboles <- YA
     
-    Uso de jtables
+    Uso de jtables <- YA
     
     EXTRA
-    Graficas con libreria externa
-    Icono en ventanas
+    Graficas con libreria externa <- YA
+    Icono en ventanas <- YA
     
     */
     /**
